@@ -12,7 +12,7 @@ router.get('/users', (req, res) => {
 
 	User.find({})
 	.then(users => res.json(users))
-	.catch(err => res.status(404).json(err)) ;
+	.catch(err => res.status(404).json(err.message)) ;
 }) ;
 
 router.post('/users', (req, res) => {
@@ -39,7 +39,7 @@ router.post('/users', (req, res) => {
     	console.log('token generated for user') ;
         res.status(201).json({token, user}); 
     })
-	.catch( err => res.status(400).json(err) ) ;
+	.catch( err => res.status(400).json(err.message) ) ;
 } ) ;
 
 router.get('/users/me', auth, (req, res) => {
@@ -55,7 +55,7 @@ router.delete('/users/me', auth, (req, res) => {
         res.json(user) ;
         sendGoodbyeMail(user.name, user.email) ;
     })
-    .catch(err => res.status(500).json(err) ) ;
+    .catch(err => res.status(500).json(err.message) ) ;
 }) ;
 
 router.patch('/users/me', auth, (req, res) => {
@@ -71,7 +71,7 @@ router.patch('/users/me', auth, (req, res) => {
 
     req.user.save()
     .then( data => res.json(data))
-    .catch( err => res.status(500).json(err)) ;
+    .catch( err => res.status(500).json(err.message)) ;
 })
 
 module.exports = router ;

@@ -4,6 +4,7 @@ const cors = require('cors') ;
 require('./src/connect.js') ;
 const userHandler = require('./handlers/user.js') ;
 const loginHandler = require('./handlers/login.js') ;
+const userImageHandler = require('./handlers/userimage.js') ; 
 
 const app = exp() ;
 
@@ -12,6 +13,7 @@ app.use(cors()) ;
 
 app.use(userHandler) ;
 app.use(loginHandler) ;
+app.use(userImageHandler) ;
 
 app.get('/', (req, res) => {
 	console.log(req.body) ;

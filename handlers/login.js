@@ -22,7 +22,7 @@ router.post('/login', (req, res) => {
 		const obj = {token, user} ;
 		res.json(obj); 
 	})
-	.catch(err => res.status(400).json(err) ) ;
+	.catch(err => res.status(400).json(err.message) ) ;
 }) ;
 
 router.post('/logout', auth, (req, res) => {
@@ -31,7 +31,7 @@ router.post('/logout', auth, (req, res) => {
 	req.user.tokens = req.user.tokens.filter( (token) => token.token !== req.token) ;
 	req.user.save()
 	.then( data => res.json('Successfully logged out') )
-	.catch( err => res.status(500).json(err)) ;
+	.catch( err => res.status(500).json(err.message)) ;
 }) ;
 
 router.post('/logoutAll', auth, (req, res) => {
@@ -40,7 +40,7 @@ router.post('/logoutAll', auth, (req, res) => {
 	req.user.tokens = [] ;
 	req.user.save()
 	.then( data => res.json('Successfully logged out') )
-	.catch( err => res.status(500).json(err)) ;
+	.catch( err => res.status(500).json(err.message)) ;
 }) ;
 
 module.exports = router ;
