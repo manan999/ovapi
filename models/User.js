@@ -40,11 +40,26 @@ const UserSchema = new mongoose.Schema({
 				throw new Error('This password may be too common try some other')
 		}
 	},
+	uploads : {
+		type: Number,
+		default: 0 
+	},
 	tokens: [{
 		token: {
 			type: String, 
 			required: true 
 		}
+	}],
+	face_detection_history: [{
+		link : {
+			type: String,
+			required: true
+		},
+		time: {
+			type: Date,
+			default: Date.now
+		},
+		data : {}
 	}],
 	image: {
 		type: String,
@@ -83,6 +98,7 @@ UserSchema.methods.toJSON = function(){
 
 	delete obj.password ;
 	delete obj.tokens ;
+	delete obj.face_detection_history ;
 
 	return obj ;
 }

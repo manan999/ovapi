@@ -1,5 +1,4 @@
 const exp = require('express') ;
-const bc = require('bcryptjs') ;
 const multer = require('multer') ;
 const sharp = require('sharp') ;
 const aws = require('aws-sdk') ;
