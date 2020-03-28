@@ -7,6 +7,7 @@ const UserSchema = new mongoose.Schema({
 	name: {
 		type: String,
 		trim: true,
+		unique: true,
 		required: true
 	},
 	email: {
@@ -50,17 +51,52 @@ const UserSchema = new mongoose.Schema({
 			required: true 
 		}
 	}],
-	face_detection_history: [{
-		link : {
-			type: String,
-			required: true
-		},
-		time: {
-			type: Date,
-			default: Date.now
-		},
-		data : {}
-	}],
+	history : {
+		face : [{
+			link : {
+				type: String,
+				required: true
+			},
+			time: {
+				type: Date,
+				default: Date.now
+			},
+			data : {}
+		}],
+		age : [{
+			link : {
+				type: String,
+				required: true
+			},
+			time: {
+				type: Date,
+				default: Date.now
+			},
+			data : {}
+		}],
+		color : [{
+			link : {
+				type: String,
+				required: true
+			},
+			time: {
+				type: Date,
+				default: Date.now
+			},
+			data : {}
+		}],
+		general : [{
+			link : {
+				type: String,
+				required: true
+			},
+			time: {
+				type: Date,
+				default: Date.now
+			},
+			data : {}
+		}]
+	},
 	image: {
 		type: String,
 		trim: true,
@@ -92,13 +128,19 @@ UserSchema.methods.generateAuthToken = function(){
 	return token ;
 }
 
+UserSchema.methods.uploaded = function(){
+	this.uploads = this.uploads + 1 ;
+	this.save() ;
+}
+
 //Comment this method while debugging
 UserSchema.methods.toJSON = function(){
 	let obj = this.toObject() ;
 
 	delete obj.password ;
 	delete obj.tokens ;
-	delete obj.face_detection_history ;
+	delete obj.uploads ;
+	delete obj.__v ;
 
 	return obj ;
 }

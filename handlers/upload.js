@@ -29,45 +29,33 @@ const s3 = new aws.S3({
 
 router.post('/upload/:type', auth, upload.single('upload'), (req, res) => {
 	console.log(req.user.name+' requested image upload for '+req.params.type) ;
-    console.log(req.user) ;
 
-    // sharp(req.file.buffer).resize({ width:300}).png().toBuffer()
-    // .then( data => {
-    // 	const obj = {
-	   //      Bucket: process.env.AWS_BUCKET_NAME,
-	   //      ContentType: 'image/png' ,
-	   //      Key: 'detection/'+req.params.type+'/'+req.user.name+'-profile.png', 
-	   //      Body: data
-	   //  };
+    sharp(req.file.buffer).resize({ width:300}).png().toBuffer()
+    .then( data => {
+    	const obj = {
+	        Bucket: process.env.AWS_BUCKET_NAME,
+	        ContentType: 'image/png' ,
+	        Key: 'detection/'+req.params.type+'/'+req.user.name+'/'+req.user.uploads+'.png', 
+	        Body: data
+	    };
 
-// 	    s3.upload(obj, function(err, data) {
-// 	        if (err) {
-// 	            throw err;
-// 	        }
-// 	        console.log(`File uploaded successfully. ${data.Location}`);
-// 	        req.user.image = data.Location ;
-// 	    	return req.user.save() ;
-// 	    });
-//     })
-//     .then( () => res.json("Profile Image Uploaded Successfully") )
-//     .catch( err => {
-//     	console.log(err);
-//     	res.status(500).json(err.message) 
-//     }) ;
+	    s3.upload(obj, function(err, data) {
+	        if (err) {
+	            throw err;
+	        }
+	        console.log(`File uploaded successfully. ${data.Location}`);
+            req.user.uploaded() ;
+	    	return res.json(data.Location) ;
+	    });
+    })
+    .catch( err => {
+    	console.log(err);
+    	res.status(500).json(err.message) 
+    }) ;
     
-// }, (error, req, res, next) => {
-// 	console.log(error) ;
-//     res.status(400).json({ error: error.message}) ;
+}, (error, req, res, next) => {
+	console.log(error) ;
+    res.status(400).json({ error: error.message}) ;
 }) ;
-
-// router.delete('/users/me/upload', auth, (req, res) => {
-// 	console.log(req.user.name + ' requested profile image upload') ;
-    
-//     req.user.image = undefined ;
-    
-//     req.user.save()
-//     .then( () => res.json("Image Deleted Successfully") )
-//     .catch( err => res.status(400).json(err)) ;
-// }) ;
 
 module.exports = router ;
