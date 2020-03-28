@@ -83,7 +83,6 @@ UserSchema.methods.toJSON = function(){
 
 	delete obj.password ;
 	delete obj.tokens ;
-	delete obj.image ;
 
 	return obj ;
 }

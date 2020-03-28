@@ -32,12 +32,13 @@ const s3 = new aws.S3({
 router.post('/users/me/upload', auth, upload.single('upload'), (req, res) => {
 	console.log(req.user.name + ' requested profile image upload') ;
 
-    sharp(req.file.buffer).resize({ width:400, height: 400}).png().toBuffer()
+    sharp(req.file.buffer).resize({ width:300, height: 300}).png().toBuffer()
     .then( data => {
     	let url = '' ;
     	
     	const obj = {
 	        Bucket: process.env.AWS_BUCKET_NAME,
+	        ContentType: 'image/png' ,
 	        Key: 'userimages/'+req.user.name+'-profile.png', 
 	        Body: data
 	    };
@@ -63,20 +64,6 @@ router.post('/users/me/upload', auth, upload.single('upload'), (req, res) => {
 	console.log(error) ;
     res.status(400).json({ error: error.message}) ;
 }) ;
-
-router.get('/users/:id/image', (req, res) => {
-    
-    // User.findById(req.params.id)
-    // .then( data => {
-    //     if(!data || !data.image)
-    //         res.status(404).json('User or Image not found') ;
-
-    //     res.set('Content-Type', 'image/png');
-    //     res.send(data.image) ;
-    // })
-    // .catch( e => res.status(400).send(e) );
-})
-
 
 router.delete('/users/me/upload', auth, (req, res) => {
 	console.log(req.user.name + ' requested profile image upload') ;
