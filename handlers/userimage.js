@@ -34,8 +34,6 @@ router.post('/users/me/upload', auth, upload.single('upload'), (req, res) => {
 
     sharp(req.file.buffer).resize({ width:300, height: 300}).png().toBuffer()
     .then( data => {
-    	let url = '' ;
-    	
     	const obj = {
 	        Bucket: process.env.AWS_BUCKET_NAME,
 	        ContentType: 'image/png' ,
@@ -48,11 +46,9 @@ router.post('/users/me/upload', auth, upload.single('upload'), (req, res) => {
 	            throw err;
 	        }
 	        console.log(`File uploaded successfully. ${data.Location}`);
-	        url = data.location ;
+	        req.user.image = data.Location ;
+	    	return req.user.save() ;
 	    });
-
-	    req.user.image = url ;
-	    return req.user.save() ;
     })
     .then( () => res.json("Profile Image Uploaded Successfully") )
     .catch( err => {
