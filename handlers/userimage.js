@@ -49,7 +49,7 @@ router.post('/users/me/upload', auth, upload.single('upload'), (req, res) => {
 	    	return req.user.save() ;
 	    });
     })
-    .then( () => res.json("Profile Image Uploaded Successfully") )
+    .then( () => res.json('Profile Image Uploaded Successfully') )
     .catch( err => {
     	console.log(err);
     	res.status(500).json(err.message) 
@@ -61,12 +61,12 @@ router.post('/users/me/upload', auth, upload.single('upload'), (req, res) => {
 }) ;
 
 router.delete('/users/me/upload', auth, (req, res) => {
-	console.log(req.user.name + ' requested profile image upload') ;
+	console.log(req.user.name + ' requested profile image deletion') ;
     
     req.user.image = undefined ;
     
     req.user.save()
-    .then( () => res.json("Image Deleted Successfully") )
+    .then( () => res.json('Image Deleted Successfully') )
     .catch( err => res.status(400).json(err)) ;
 }) ;
 
