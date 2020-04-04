@@ -8,12 +8,12 @@ const { sendWelcomeMail, sendGoodbyeMail } = require('../src/email.js') ;
 const router = new exp.Router() ;
 
 //Comment while upload
-router.get('/users', (req, res) => {
+// router.get('/users', (req, res) => {
 
-	User.find({})
-	.then(users => res.json(users))
-	.catch(err => res.status(404).json(err.message)) ;
-}) ;
+// 	User.find({})
+// 	.then(users => res.json(users))
+// 	.catch(err => res.status(404).json(err.message)) ;
+// }) ;
 
 router.post('/users', (req, res) => {
 	console.log('New User Creation Requsted')
