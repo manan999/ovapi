@@ -60,7 +60,7 @@ router.delete('/users/me', auth, (req, res) => {
 
 router.patch('/users/me', auth, (req, res) => {
     const updates = Object.keys(req.body)
-    const allowedUpdates = ['name', 'email', 'password', 'age']
+    const allowedUpdates = ['name', 'email', 'password', 'mobile']
     const isValidOperation = updates.every( update => allowedUpdates.includes(update))
 
     if (!isValidOperation) {
